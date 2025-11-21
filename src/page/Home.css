@@ -586,14 +586,68 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Large Desktop (1200px and above) */
+@media (min-width: 1200px) {
+  .hero-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Desktop (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .hero-content {
+    gap: 3rem;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
   .hero-content {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
   .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile Landscape / Small Tablet (481px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-title {
     font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
   }
 
   .hero-image {
@@ -601,24 +655,162 @@
   }
 
   .nav-container {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
   }
 
   .nav-links {
     gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .btn {
+    flex: 1;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile Portrait (320px - 480px) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero-content {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-image {
+    height: 250px;
+  }
+
+  .floating-card {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .nav-container {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .trending-products,
+  .features {
+    padding: 3rem 1rem;
+  }
+
+  .trending-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .trending-card,
+  .feature-card {
+    padding: 1.25rem;
+  }
+
+  .trending-actions {
+    flex-direction: column;
   }
 
   .hero-buttons {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .btn {
     width: 100%;
-    text-align: center;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .btn-large {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-section {
+    padding: 3rem 1rem;
+  }
+
+  .cta-content {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+  }
+
+  .wishlist-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
   }
 }
 

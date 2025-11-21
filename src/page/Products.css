@@ -446,31 +446,131 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
   .products-container {
-    padding: 1rem;
+    padding: 1.5rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile Landscape / Small Tablet (481px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  .products-container {
+    padding: 1.5rem;
   }
 
   .page-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .filters {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
   }
 
   .category-filter {
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .sort-select {
     width: 100%;
+  }
+}
+
+/* Mobile Portrait (320px - 480px) */
+@media (max-width: 480px) {
+  .products-container {
+    padding: 1rem;
+  }
+
+  .products-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .filters-section {
+    margin-bottom: 2rem;
+  }
+
+  .search-box {
+    padding: 0.75rem 1rem;
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .category-filter {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .category-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .sort-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .product-card {
+    border-radius: 16px;
+  }
+
+  .product-info {
+    padding: 1.25rem;
+  }
+
+  .product-name {
+    font-size: 1rem;
+  }
+
+  .current-price {
+    font-size: 1.25rem;
+  }
+
+  .results-count {
+    font-size: 0.85rem;
+    padding: 0.75rem;
   }
 }
 
