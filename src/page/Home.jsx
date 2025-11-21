@@ -55,27 +55,27 @@ export default function Home() {
                 Discover amazing products and shop with confidence. 
                 Your one-stop destination for all your shopping needs.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                <Link to="/products" className="btn btn-primary">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
+                <Link to="/products" className="btn btn-primary text-center">
                   Shop Now
                 </Link>
-                <Link to="/signup" className="btn btn-secondary">
+                <Link to="/signup" className="btn btn-secondary text-center">
                   Get Started
                 </Link>
               </div>
             </div>
             <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] hidden lg:block">
-              <div className="absolute top-[10%] left-[10%] glass rounded-2xl p-6 shadow-xl flex flex-col items-center gap-2 animate-float">
-                <div className="text-4xl">🛍️</div>
-                <p className="font-semibold text-sm">Shop Now</p>
+              <div className="absolute top-[10%] left-[10%] glass rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col items-center gap-2 animate-float hover:scale-105 transition-transform">
+                <div className="text-3xl sm:text-4xl">🛍️</div>
+                <p className="font-semibold text-xs sm:text-sm">Shop Now</p>
               </div>
-              <div className="absolute top-[50%] right-[10%] glass rounded-2xl p-6 shadow-xl flex flex-col items-center gap-2 animate-float-delayed">
-                <div className="text-4xl">🚀</div>
-                <p className="font-semibold text-sm">Fast Delivery</p>
+              <div className="absolute top-[50%] right-[10%] glass rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col items-center gap-2 animate-float-delayed hover:scale-105 transition-transform">
+                <div className="text-3xl sm:text-4xl">🚀</div>
+                <p className="font-semibold text-xs sm:text-sm">Fast Delivery</p>
               </div>
-              <div className="absolute bottom-[10%] left-[30%] glass rounded-2xl p-6 shadow-xl flex flex-col items-center gap-2 animate-float-delayed-2">
-                <div className="text-4xl">💳</div>
-                <p className="font-semibold text-sm">Secure Payment</p>
+              <div className="absolute bottom-[10%] left-[30%] glass rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col items-center gap-2 animate-float-delayed-2 hover:scale-105 transition-transform">
+                <div className="text-3xl sm:text-4xl">💳</div>
+                <p className="font-semibold text-xs sm:text-sm">Secure Payment</p>
               </div>
             </div>
           </div>
