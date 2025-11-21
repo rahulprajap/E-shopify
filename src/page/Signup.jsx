@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { signupUser, clearError } from '../store/slices/authSlice';
 import './Auth.css';
 
 export default function Signup() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +18,13 @@ export default function Signup() {
     confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/products');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,14 +72,18 @@ export default function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      // Simulate signup - in real app, this would call an API
-      console.log('Signup successful', formData);
-      // Set authentication status
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/products');
+      dispatch(clearError());
+      const result = await dispatch(signupUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      }));
+      if (signupUser.fulfilled.match(result)) {
+        navigate('/products');
+      }
     }
   };
 
@@ -136,13 +152,23 @@ export default function Signup() {
                 {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
               </div>
 
+              {error && (
+                <div className="error-message" style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                  {error}
+                </div>
+              )}
+
               <label className="checkbox-label">
                 <input type="checkbox" required />
                 <span>I agree to the <Link to="#" className="auth-link">Terms & Conditions</Link></span>
               </label>
 
-              <button type="submit" className="btn btn-primary btn-full">
-                Create Account
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-full"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>
 

@@ -1,22 +1,25 @@
 import React from 'react';
-import { Outlet, Navigate, Link } from 'react-router-dom';
+import { Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { logoutUser } from '../store/slices/authSlice';
 import './Layout.css';
-
-// Simple auth check - in real app, this would check actual auth state
-const isAuthenticated = () => {
-  // For demo purposes, check localStorage
-  // In real app, check token, user session, etc.
-  return localStorage.getItem('isAuthenticated') === 'true';
-};
 
 export default function PrivateLayout() {
   const { isDark, toggleTheme } = useTheme();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // Redirect to login if not authenticated
-  if (!isAuthenticated()) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/login');
+  };
 
   return (
     <div className={`layout private-layout ${isDark ? 'dark' : 'light'}`}>
@@ -56,10 +59,7 @@ export default function PrivateLayout() {
             </button>
             <button 
               className="logout-btn"
-              onClick={() => {
-                localStorage.removeItem('isAuthenticated');
-                window.location.href = '/login';
-              }}
+              onClick={handleLogout}
             >
               Logout
             </button>

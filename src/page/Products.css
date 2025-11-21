@@ -2,6 +2,13 @@
 .products-page {
   min-height: 100vh;
   transition: background-color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.products-page h1,
+.products-page h2,
+.products-page h3 {
+  font-family: 'Poppins', sans-serif;
 }
 
 .products-page.light {
@@ -250,6 +257,10 @@
   margin-bottom: 2rem;
 }
 
+.product-card-wrapper {
+  position: relative;
+}
+
 .product-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -268,9 +279,46 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.product-card:hover {
+.product-card-wrapper:hover .product-card {
   transform: translateY(-10px);
   box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  color: #666;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.products-page.dark .wishlist-btn {
+  background: rgba(26, 26, 46, 0.9);
+  color: #aaa;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.wishlist-btn.active {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
 }
 
 .product-image-container {

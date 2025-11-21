@@ -2,6 +2,13 @@
 .product-details-page {
   min-height: 100vh;
   transition: background-color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.product-details-page h1,
+.product-details-page h2,
+.product-details-page h3 {
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-details-page.light {
@@ -412,6 +419,25 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+.btn-wishlist {
+  grid-column: 1 / -1;
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+}
+
+.btn-wishlist:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.btn-wishlist.active {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
 }
 
 .btn {

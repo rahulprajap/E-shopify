@@ -1,6 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { ThemeProvider } from './context/ThemeContext';
+import { checkAuth } from './store/slices/authSlice';
 import PublicLayout from './layouts/PublicLayout';
 import PrivateLayout from './layouts/PrivateLayout';
 import PublicRoute from './routes/PublicRoute';
@@ -12,6 +14,8 @@ const Login = lazy(() => import('./page/Login'));
 const Signup = lazy(() => import('./page/Signup'));
 const Products = lazy(() => import('./page/Products'));
 const ProductDetails = lazy(() => import('./page/ProductDetails'));
+const Wishlist = lazy(() => import('./page/Wishlist'));
+const Checkout = lazy(() => import('./page/Checkout'));
 const NotFound = lazy(() => import('./page/NotFound'));
 
 // Loading fallback component
@@ -27,6 +31,13 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Check auth on app load
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
     <ThemeProvider>
       <Suspense fallback={<LoadingFallback />}>
@@ -70,6 +81,22 @@ function App() {
               element={
                 <PublicRoute>
                   <ProductDetails />
+                </PublicRoute>
+              } 
+            />
+            <Route 
+              path="/wishlist" 
+              element={
+                <PublicRoute>
+                  <Wishlist />
+                </PublicRoute>
+              } 
+            />
+            <Route 
+              path="/checkout" 
+              element={
+                <PublicRoute>
+                  <Checkout />
                 </PublicRoute>
               } 
             />

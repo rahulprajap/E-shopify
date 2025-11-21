@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { loginUser, clearError } from '../store/slices/authSlice';
 import './Auth.css';
 
 export default function Login() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [errors, setErrors] = useState({});
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/products');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,14 +58,14 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      // Simulate login - in real app, this would call an API
-      console.log('Login successful', formData);
-      // Set authentication status
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/products');
+      dispatch(clearError());
+      const result = await dispatch(loginUser(formData));
+      if (loginUser.fulfilled.match(result)) {
+        navigate('/products');
+      }
     }
   };
 
@@ -94,6 +106,12 @@ export default function Login() {
                 {errors.password && <span className="error-message">{errors.password}</span>}
               </div>
 
+              {error && (
+                <div className="error-message" style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                  {error}
+                </div>
+              )}
+
               <div className="form-options">
                 <label className="checkbox-label">
                   <input type="checkbox" />
@@ -102,8 +120,12 @@ export default function Login() {
                 <Link to="#" className="forgot-link">Forgot password?</Link>
               </div>
 
-              <button type="submit" className="btn btn-primary btn-full">
-                Sign In
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-full"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </form>
 

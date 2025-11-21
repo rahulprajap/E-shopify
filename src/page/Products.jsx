@@ -1,36 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { products, categories } from '../data/products';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchProducts, setSelectedCategory, setSearchTerm, setSortBy } from '../store/slices/productsSlice';
+import { addToWishlist, removeFromWishlist } from '../store/slices/wishlistSlice';
+import { categories } from '../data/products';
 import './Products.css';
 
 export default function Products() {
   const { isDark } = useTheme();
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('default');
+  const dispatch = useAppDispatch();
+  const { filteredProducts, selectedCategory, searchTerm, sortBy, isLoading, products } = useAppSelector(
+    (state) => state.products
+  );
+  const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
 
-  const filteredProducts = products
-    .filter(product => {
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'price-low':
-          return a.price - b.price;
-        case 'price-high':
-          return b.price - a.price;
-        case 'rating':
-          return b.rating - a.rating;
-        case 'name':
-          return a.name.localeCompare(b.name);
-        default:
-          return 0;
-      }
-    });
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <div className={`products-page ${isDark ? 'dark' : 'light'}`}>
@@ -52,7 +39,7 @@ export default function Products() {
               type="text"
               placeholder="Search products..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => dispatch(setSearchTerm(e.target.value))}
               className="search-input"
             />
           </div>
@@ -63,7 +50,7 @@ export default function Products() {
                 <button
                   key={category}
                   className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => dispatch(setSelectedCategory(category))}
                 >
                   {category}
                 </button>
@@ -72,7 +59,7 @@ export default function Products() {
 
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => dispatch(setSortBy(e.target.value))}
               className="sort-select"
             >
               <option value="default">Sort by: Default</option>
@@ -86,31 +73,38 @@ export default function Products() {
 
         {/* Products Grid */}
         <div className="products-grid">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
-              <Link
-                key={product.id}
-                to={`/products/${product.id}`}
-                className="product-card"
-              >
-                <div className="product-image-container">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="product-image"
+          {isLoading ? (
+            <div className="no-products">
+              <p>Loading products...</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
+            filteredProducts.map(product => {
+              const isInWishlist = wishlistItems.some((item) => item.id === product.id);
+              return (
+                <div key={product.id} className="product-card-wrapper">
+                  <Link
+                    to={`/products/${product.id}`}
+                    className="product-card"
+                  >
+                    <div className="product-image-container">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="product-image"
                     onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/300x300?text=Product+Image';
+                      e.target.onerror = null;
+                      e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="300"%3E%3Crect width="300" height="300" fill="%23f0f0f0"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="Arial" font-size="16"%3EProduct Image%3C/text%3E%3C/svg%3E';
                     }}
-                  />
-                  {product.originalPrice > product.price && (
-                    <span className="discount-badge">
-                      {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                    </span>
-                  )}
-                  {!product.inStock && (
-                    <span className="out-of-stock-badge">Out of Stock</span>
-                  )}
-                </div>
+                      />
+                      {product.originalPrice > product.price && (
+                        <span className="discount-badge">
+                          {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                        </span>
+                      )}
+                      {!product.inStock && (
+                        <span className="out-of-stock-badge">Out of Stock</span>
+                      )}
+                    </div>
                 <div className="product-info">
                   <span className="product-category">{product.category}</span>
                   <h3 className="product-name">{product.name}</h3>
@@ -130,8 +124,25 @@ export default function Products() {
                     )}
                   </div>
                 </div>
-              </Link>
-            ))
+                  </Link>
+                  <button
+                    className={`wishlist-btn ${isInWishlist ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (isInWishlist) {
+                        dispatch(removeFromWishlist(product.id));
+                      } else {
+                        dispatch(addToWishlist(product));
+                      }
+                    }}
+                    title={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                  >
+                    {isInWishlist ? '♥' : '♡'}
+                  </button>
+                </div>
+              );
+            })
           ) : (
             <div className="no-products">
               <p>No products found. Try adjusting your filters.</p>
@@ -147,4 +158,3 @@ export default function Products() {
     </div>
   );
 }
-

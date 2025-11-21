@@ -4,6 +4,13 @@
   display: flex;
   flex-direction: column;
   transition: background-color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.layout h1,
+.layout h2,
+.layout h3 {
+  font-family: 'Poppins', sans-serif;
 }
 
 .layout.light {

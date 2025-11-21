@@ -17,6 +17,8 @@ export default function PublicLayout() {
           <div className="nav-links">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/products" className="nav-link">Products</Link>
+            <Link to="/wishlist" className="nav-link">Wishlist</Link>
+            <Link to="/checkout" className="nav-link">Cart</Link>
             <Link to="/login" className="nav-link">Login</Link>
             <Link to="/signup" className="nav-link">Sign Up</Link>
             <button 
