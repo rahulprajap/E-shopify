@@ -188,7 +188,7 @@ export default function Checkout() {
               {/* Coupon Section */}
               <div className="mb-6 p-4 border-2 border-gray-200/50 dark:border-white/10 rounded-xl space-y-3">
                 <h3 className="font-semibold">Have a coupon code?</h3>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   <input
                     type="text"
                     placeholder="Enter code"
